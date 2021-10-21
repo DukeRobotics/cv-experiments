@@ -17,10 +17,10 @@ def no_preprocessing(image_path):
 
 
 #Credit to this research paper: http://www.lsis.org/rov3d/article/art_AmineRhone2012.html
-def amine_rhone:
+def amine_rhone(image_path):
 
     #Read Image
-    img = cv2.imread(image_path)
+    image = cv2.imread(image_path)
 
     #Get Color Information
     blue_min = np.percentile(image[:, :, 0], 4)
@@ -37,7 +37,7 @@ def amine_rhone:
     image[:, :, 2] = (255*(image[:, :, 2] - red_min))/(red_max-red_min)
     
     #Return Image
-    return img
+    return image
 
 
 if __name__ == '__main__':
