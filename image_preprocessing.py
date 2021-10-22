@@ -1,5 +1,7 @@
 import numpy as np
 import cv2
+import matplotlib.pyplot as plt
+import math
 from image_preprocessing.DCP import main as DCP
 from image_preprocessing.CLAHE import main as CLAHE
 
@@ -7,14 +9,7 @@ from image_preprocessing.CLAHE import main as CLAHE
 # Each algorithm should have its own separate function
 
 def no_preprocessing(image_path):
-    # Read in image
-    img = cv2.imread(image_path)
-
-    # Apply algorithm
-    img = img
-
-    # Return image
-    return img
+    return cv2.imread(image_path)
 
 
 #Credit to this research paper: http://www.lsis.org/rov3d/article/art_AmineRhone2012.html
@@ -54,4 +49,19 @@ def dcp(image_path):
 
 if __name__ == '__main__':
     # Test an image processing algorithm
-    pass
+
+    imgPaths = ["output/CLAHE/train_images/frame216.jpg"]
+    imgs = []
+
+    for imgPath in imgPaths:
+        imgs.append(no_preprocessing(imgPath))
+        imgs.append(clahe(imgPath))
+        #imgs.append(dcp(imgPath))
+
+    columns = 2
+    rows = math.ceil(len(imgs) / 2)
+    for i in range(1, columns*rows +1):
+            plt.subplot(rows, columns, i)
+            plt.imshow(cv2.cvtColor(imgs[i-1], cv2.COLOR_BGR2RGB), interpolation="nearest")
+    plt.axis("off")
+    plt.show()
