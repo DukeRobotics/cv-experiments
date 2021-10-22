@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
-
+from image_preprocessing.DCP import main as DCP
+from image_preprocessing.CLAHE import main as CLAHE
 
 # This file will contain all of the different image processing algorithms
 # Each algorithm should have its own separate function
@@ -39,6 +40,17 @@ def amine_rhone(image_path):
     #Return Image
     return image
 
+def clahe(image_path):
+    img = cv2.imread(image_path)
+    return CLAHE.RecoverCLAHE(img)
+
+def dcp(image_path):
+    img = cv2.imread(image_path)
+    transmission, sceneRadiance = DCP.getRecoverScene(img)
+
+    # Can return transmission or sceneRadiance
+    return np.uint8(transmission * 255)
+    #return sceneRadiance
 
 if __name__ == '__main__':
     # Test an image processing algorithm
