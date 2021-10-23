@@ -1,10 +1,12 @@
 import os
+from image_preprocessing import *
 
 # This file will contain any constants or configurations
 # This should have any variables that someone might want to change so that the other scripts don't have to be edited
 
 CLASSES = ['start_gate', 'start_tick']
-IMAGE_PREPROCESSING_ALGORITHMS = ['no_preprocessing']
+IMAGE_PREPROCESSING_ALGORITHMS = [no_preprocessing]
+ORIGINAL_IMAGE_FOLDER = 'no_preprocessing'
 
 # Values
 DEFAULT_EPOCHS = 50

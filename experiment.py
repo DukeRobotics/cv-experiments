@@ -21,7 +21,7 @@ def main(args):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--image-preprocessing-conditions', type=List[str], default=['no_processing'])
+    parser.add_argument('--image-preprocessing-conditions', type=List, default=[no_preprocessing])
     parser.add_argument('--runs', type=int, default=3)
     args = parser.parse_args()
 
