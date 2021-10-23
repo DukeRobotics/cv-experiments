@@ -6,7 +6,7 @@ from image_preprocessing import *
 
 CLASSES = ['start_gate', 'start_tick']
 IMAGE_PREPROCESSING_ALGORITHMS = [no_preprocessing]
-ORIGINAL_IMAGE_FOLDER = 'no_preprocessing'
+ORIGINAL_IMAGE_FOLDER = 'original'
 
 # Values
 DEFAULT_EPOCHS = 50
