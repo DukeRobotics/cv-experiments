@@ -12,5 +12,5 @@ DEFAULT_EPOCHS = 50
 # Paths
 BASE_DATA_DIR = os.path.join('data')
 BASE_OUTPUT_DIR = os.path.join('output')
-TRAINING_FOLDER_NAME = 'train_images'
-VALIDATION_FOLDER_NAME = 'validation_images'
+TRAINING_FOLDER_NAME = 'train'
+VALIDATION_FOLDER_NAME = 'validation'

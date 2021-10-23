@@ -4,6 +4,15 @@ import matplotlib.pyplot as plt
 import random
 import argparse
 
+# Directory Structure:
+# output
+#   no_preprocessing
+#       train
+#       validation
+#   some_other_preprocessing
+#       train
+#       validation
+
 
 def main(args):
     epochs = args.epochs
@@ -19,9 +28,9 @@ def main(args):
     # Either create folder beforehand or incorporate into custom dataset
 
     # Get training dataset
-    train_dataset = core.Dataset(os.path.join(BASE_OUTPUT_DIR, image_preprocessing, TRAINING_FOLDER_NAME))
+    train_dataset = core.Dataset(os.path.join(BASE_DATA_DIR, image_preprocessing, TRAINING_FOLDER_NAME))
     # Get validation dataset
-    val_dataset = core.Dataset(os.path.join(BASE_OUTPUT_DIR, image_preprocessing, VALIDATION_FOLDER_NAME))
+    val_dataset = core.Dataset(os.path.join(BASE_DATA_DIR, image_preprocessing, VALIDATION_FOLDER_NAME))
 
     # Create model
     model = core.Model(CLASSES)
