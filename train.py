@@ -1,11 +1,16 @@
 from detecto import core, utils, visualize
 from configurations import *
+
 import matplotlib.pyplot as plt
+
 import random
 import argparse
+import pandas as pd
+
+from datetime import date
 
 # Directory Structure:
-# output
+# data
 #   no_preprocessing
 #       train
 #       validation
@@ -13,8 +18,13 @@ import argparse
 #       train
 #       validation
 
+# output
+#   no_preprocessing
+#   some_other_preprocessing
+
 
 def main(args):
+
     epochs = args.epochs
     image_preprocessing = args.image_preprocessing
     seed = args.seed
@@ -44,13 +54,23 @@ def main(args):
     # Save the results in .png and probably .txt format as well
     # Will save results in output/{image_preprocessing}
     output_dir = os.path.join(BASE_OUTPUT_DIR, image_preprocessing)
+
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
+
     plt.figure()
     plt.plot(losses)
-    plt.savefig(os.path.join(output_dir, f'losses-{image_preprocessing}-epochs{epochs}-seed{seed}.png'))
+    
+    # Get today's date for model identification
+    today = date.today.strftime("%d/%m/%Y %H:%M:%S")
+
+    # Save loss graph to the proepr directory
+    plt.savefig(os.path.join(output_dir, f'losses-{image_preprocessing}-epochs{epochs}-seed{seed}-date{today}.png'))
     plt.close()
 
+    df = pd.DataFrame(losses, columns=['loss'])
+    df.to_csv(os.path.join(output_dir, f'losses-{image_preprocessing}-epochs{epochs}-seed{seed}-date{today}.txt'), header=None, index=None, sep=' ', mode='a')
+    
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
