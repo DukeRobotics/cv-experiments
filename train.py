@@ -8,7 +8,7 @@ import random
 import argparse
 import pandas as pd
 
-from datetime import date
+from datetime import datetime
 
 
 def main(args):
@@ -22,45 +22,49 @@ def main(args):
                                                                   f'IMAGE_PREPROCESSING_ALGORITHMS '
     random.seed(seed)
 
-    # Will need to apply image preprocessing at some point
-    # Either create folder beforehand or incorporate into custom dataset
-    train_dir = os.path.join(BASE_DATA_DIR, image_preprocessing.__name__, TRAINING_FOLDER_NAME)
-    val_dir = os.path.join(BASE_DATA_DIR, image_preprocessing.__name__, VALIDATION_FOLDER_NAME)
+    preprocessing_dir = os.path.join(BASE_DATA_DIR, image_preprocessing.__name__)
+    train_dir = os.path.join(preprocessing_dir, TRAINING_FOLDER_NAME)
+    val_dir = os.path.join(preprocessing_dir, VALIDATION_FOLDER_NAME)
 
     if not os.path.exists(train_dir) or not os.path.exists(val_dir):
+        print(f'Creating the folders for image preprocessing: {image_preprocessing.__name__}')
         create_image_processing_folders(image_preprocessing)
+    else:
+        print(f'Using the existing training and validation folders at {preprocessing_dir}')
 
-    # Get training dataset
+    print('Getting training and validation datasets')
     train_dataset = core.Dataset(train_dir)
-    # Get validation dataset
     val_dataset = core.Dataset(val_dir)
 
-    # Create model
     model = core.Model(CLASSES)
 
-    # Train the model
+    print('Training the model!')
     losses = model.fit(dataset=train_dataset,
                        val_dataset=val_dataset,
                        epochs=epochs,
                        verbose=True)
 
-    # Save the results in .png and probably .txt format as well
-    # Will save results in output/{image_preprocessing.__name__}
     output_dir = os.path.join(BASE_OUTPUT_DIR, image_preprocessing.__name__)
 
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
 
     # Get today's date for model identification
-    today = date.today.strftime("%d/%m/%Y %H:%M:%S")
+    date_and_time = datetime.now().strftime("%d-%m-%Y-%H-%M-%S")
 
+    print(f'Saving results into {output_dir}')
     plt.figure()
     plt.plot(losses)
-    plt.savefig(os.path.join(output_dir, f'losses-{image_preprocessing.__name__}-epochs{epochs}-seed{seed}-date{today}.png'))
+    plt.title(f'Validation Losses for {image_preprocessing.__name__}, Epochs: {epochs}, Seed: {seed}')
+    plt.xlabel('Epochs')
+    plt.ylabel('Validation Losses')
+    plt.savefig(os.path.join(output_dir, f'losses-{image_preprocessing.__name__}-epochs{epochs}-seed{seed}'
+                                         f'-datetime{date_and_time}.png'))
     plt.close()
 
     df = pd.DataFrame(losses, columns=['loss'])
-    df.to_csv(os.path.join(output_dir, f'losses-{image_preprocessing.__name__}-epochs{epochs}-seed{seed}-date{today}.txt'), header=None, index=None, sep=' ', mode='a')
+    df.to_csv(os.path.join(output_dir, f'losses-{image_preprocessing.__name__}-epochs{epochs}-seed{seed}'
+                                       f'-datetime{date_and_time}.txt'), header=None, index=None, sep=' ', mode='a')
     
 
 if __name__ == '__main__':
