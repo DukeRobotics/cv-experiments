@@ -58,8 +58,6 @@ def main():
     cv2.setWindowProperty('left', cv2.WND_PROP_TOPMOST, 1)
     cv2.setWindowProperty('right', cv2.WND_PROP_TOPMOST, 1)
     cv2.waitKey(0)
-    print('distance: ', a)
-
 
 if __name__ == '__main__':
     # Test an image processing algorithm
