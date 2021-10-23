@@ -1,5 +1,6 @@
 from detecto import core, utils, visualize
 from configurations import *
+from data import *
 
 import matplotlib.pyplot as plt
 
@@ -23,11 +24,16 @@ def main(args):
 
     # Will need to apply image preprocessing at some point
     # Either create folder beforehand or incorporate into custom dataset
+    train_dir = os.path.join(BASE_DATA_DIR, image_preprocessing.__name__, TRAINING_FOLDER_NAME)
+    val_dir = os.path.join(BASE_DATA_DIR, image_preprocessing.__name__, VALIDATION_FOLDER_NAME)
+
+    if not os.path.exists(train_dir) or not os.path.exists(val_dir):
+        create_image_processing_folders(image_preprocessing)
 
     # Get training dataset
-    train_dataset = core.Dataset(os.path.join(BASE_DATA_DIR, image_preprocessing.__name__, TRAINING_FOLDER_NAME))
+    train_dataset = core.Dataset(train_dir)
     # Get validation dataset
-    val_dataset = core.Dataset(os.path.join(BASE_DATA_DIR, image_preprocessing.__name__, VALIDATION_FOLDER_NAME))
+    val_dataset = core.Dataset(val_dir)
 
     # Create model
     model = core.Model(CLASSES)

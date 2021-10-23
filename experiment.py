@@ -29,7 +29,6 @@ def main(args):
             curr_config = ModelConfig(image_preprocessing_condition, DEFAULT_EPOCHS, seeds[i])
             train(curr_config)
 
-
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
