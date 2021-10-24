@@ -1,18 +1,14 @@
 from detecto import core, utils, visualize
 from configurations import *
 from data import *
-
 import matplotlib.pyplot as plt
-
 import random
 import argparse
 import pandas as pd
-
 from datetime import datetime
 
 
 def main(args):
-
     epochs = args.epochs
     image_preprocessing = args.image_preprocessing
     seed = args.seed
@@ -39,18 +35,19 @@ def main(args):
     model = core.Model(CLASSES)
 
     print('Training the model!')
-    losses = model.fit(dataset=train_dataset,
-                       val_dataset=val_dataset,
-                       epochs=epochs,
-                       verbose=True)
+    # losses = model.fit(dataset=train_dataset,
+    #                    val_dataset=val_dataset,
+    #                    epochs=epochs,
+    #                    verbose=True)
+    losses = [1,2,3]
 
     output_dir = os.path.join(BASE_OUTPUT_DIR, image_preprocessing.__name__)
 
     if not os.path.exists(output_dir):
-        os.mkdir(output_dir)
+        os.makedirs(output_dir)
 
     # Get today's date for model identification
-    date_and_time = datetime.now().strftime("%d-%m-%Y-%H-%M-%S")
+    date_and_time = datetime.now().strftime("%Y-%m-%d-%H-%M")
 
     print(f'Saving results into {output_dir}')
     plt.figure()
