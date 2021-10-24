@@ -35,11 +35,10 @@ def main(args):
     model = core.Model(CLASSES)
 
     print('Training the model!')
-    # losses = model.fit(dataset=train_dataset,
-    #                    val_dataset=val_dataset,
-    #                    epochs=epochs,
-    #                    verbose=True)
-    losses = [1,2,3]
+    losses = model.fit(dataset=train_dataset,
+                       val_dataset=val_dataset,
+                       epochs=epochs,
+                       verbose=True)
 
     output_dir = os.path.join(BASE_OUTPUT_DIR, image_preprocessing.__name__)
 
