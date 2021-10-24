@@ -22,3 +22,9 @@ VALIDATION_FOLDER_NAME = 'validation'
 # File formats
 IMAGE_EXT = '.jpg'
 LABEL_EXT = '.xml'
+
+if __name__ == '__main__':
+    # When running this as main, this will verify that the configurations are valid
+    assert len(DEFAULT_SEEDS) == DEFAULT_RUNS, 'The length of DEFAULT_SEEDS should equal the value of DEFAULT_RUNS'
+    assert DEFAULT_EPOCHS > 0, 'DEFAULT_EPOCHS should be positive'
+
