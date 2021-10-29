@@ -1,5 +1,5 @@
 import numpy as np
-from GuidedFilter import GuidedFilter
+from image_preprocessing.GBdehazingRCorrection.GuidedFilter import GuidedFilter
 
 
 def  refinedtransmission(transmission, img):
