@@ -67,14 +67,14 @@ def gbrc(image_path):
         AtomsphericLight, AtomsphericLightGB, AtomsphericLightRGB = GBRC.getAtomsphericLight(largestDiff, img)
         transmission = GBRC.getTransmission(img, AtomsphericLightRGB, blockSize)
         transmission = GBRC.refinedtransmission(transmission, img)
-        return np.uint8(transmission[:, :, 0] * 255)
+        # return np.uint8(transmission[:, :, 0] * 255)
 
         sceneRadiance_GB = GBRC.sceneRadianceGB(img, transmission, AtomsphericLightRGB)
         sceneRadiance = GBRC.sceneradiance(img, sceneRadiance_GB)
         S_x = GBRC.AdaptiveExposureMap(img, sceneRadiance, Lambda=0.3, blockSize=blockSize)
         sceneRadiance = GBRC.AdaptiveSceneRadiance(sceneRadiance, S_x)
         
-        # return sceneRadiance
+        return sceneRadiance
 
 # Works, fast
 def gc(image_path):
