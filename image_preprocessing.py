@@ -34,8 +34,12 @@ def amine_rhone(image_path):
     image[:, :, 0] = (255*(image[:, :, 0] - blue_min))/(blue_max-blue_min)
     image[:, :, 1] = (255*(image[:, :, 1] - green_min))/(green_max-green_min)
     image[:, :, 2] = (255*(image[:, :, 2] - red_min))/(red_max-red_min)
+    image = np.clip(image, 0, 255) #Formula will cause some values to go slightly outside of range
+    image = image.astype(np.uint8)
+    
     
     #Return Image
+    print(type(image))
     return image
 
 # Works, fast
@@ -103,3 +107,4 @@ if __name__ == '__main__':
         before = not before
     fig.tight_layout()
     plt.show()
+
