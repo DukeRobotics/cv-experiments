@@ -6,6 +6,7 @@ import math
 from image_preprocessing.DCP import main as DCP
 from image_preprocessing.CLAHE import main as CLAHE
 from image_preprocessing.GBdehazingRCorrection import main as GBRC
+from image_preprocessing.GC import main as GC
 
 # This file will contain all of the different image processing algorithms
 # Each algorithm should have its own separate function
@@ -37,20 +38,21 @@ def amine_rhone(image_path):
     #Return Image
     return image
 
+# Works, fast
 def clahe(image_path):
     img = cv2.imread(image_path)
     return CLAHE.RecoverCLAHE(img)
 
-# Not working
+# Works, but takes 1-2 minutes per image
 def dcp(image_path):
     img = cv2.imread(image_path)
     transmission, sceneRadiance = DCP.getRecoverScene(img)
-    print("past")
 
     # Can return transmission or sceneRadiance
     #return np.uint8(transmission * 255)
     return sceneRadiance
 
+# Works, but takes 1-2 minutes per image
 def gbrc(image_path):
         img = cv2.imread(image_path)
         img = (img - img.min()) / (img.max() - img.min()) * 255
@@ -70,18 +72,26 @@ def gbrc(image_path):
         
         # return sceneRadiance
 
+# Works, fast
+def gc(image_path):
+    img = cv2.imread(image_path)
+    return GC.RecoverGC(img)
 
 if __name__ == '__main__':
     # Test an image processing algorithm
-
-    imgPaths = ["test_images/frame216.jpg", "test_images/frame220.jpg", "test_images/frame223.jpg", "test_images/frame230.jpg", "test_images/frame235.jpg", "test_images/frame242.jpg", "test_images/frame258.jpg", ]
+    
+    imgPaths = ["test_images/frame216.jpg"]
+    # imgPaths = ["test_images/frame216.jpg", "test_images/frame220.jpg", "test_images/frame223.jpg", "test_images/frame230.jpg", "test_images/frame235.jpg", "test_images/frame242.jpg", "test_images/frame258.jpg", ]
+    functions = [amine_rhone, clahe, dcp, gbrc, gc]
     imgs = []
 
     for imgPath in imgPaths:
         imgs.append(no_preprocessing(imgPath))
+        #imgs.append(amine_rhone(imgPath))
         #imgs.append(clahe(imgPath))
         #imgs.append(dcp(imgPath))
-        imgs.append(gbrc(imgPath))
+        #imgs.append(gbrc(imgPath))
+        imgs.append(gc(imgPath))
 
     before = True
     fig, axes = plt.subplots(nrows=1, ncols=2)
