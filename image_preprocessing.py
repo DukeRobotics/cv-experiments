@@ -4,10 +4,10 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import argparse, math, time
 from os.path import exists
-from image_preprocessing.DCP import main as DCP
-from image_preprocessing.CLAHE import main as CLAHE
-from image_preprocessing.GBdehazingRCorrection import main as GBRC
-from image_preprocessing.GC import main as GC
+from image_preprocessing_pkg.DCP import main as DCP
+from image_preprocessing_pkg.CLAHE import main as CLAHE
+from image_preprocessing_pkg.GBdehazingRCorrection import main as GBRC
+from image_preprocessing_pkg.GC import main as GC
 
 # This file will contain all of the different image processing algorithms
 # Each algorithm should have its own separate function
@@ -80,6 +80,7 @@ def main():
 def no_preprocessing(image_path):
     return cv2.imread(image_path)
 
+
 #Credit to this research paper: http://www.lsis.org/rov3d/article/art_AmineRhone2012.html
 def amine_rhone(image_path):
 
@@ -94,22 +95,23 @@ def amine_rhone(image_path):
     red_min = np.percentile(image[:, :, 2], 4)
     red_max = np.percentile(image[:, :, 2], 96)
 
-    #Edit Image
-    image = image.astype(np.int64) #To avoid overflow issues
-    image[:, :, 0] = (255*(image[:, :, 0] - blue_min))/(blue_max-blue_min)
-    image[:, :, 1] = (255*(image[:, :, 1] - green_min))/(green_max-green_min)
-    image[:, :, 2] = (255*(image[:, :, 2] - red_min))/(red_max-red_min)
-    image = np.clip(image, 0, 255) #Formula will cause some values to go slightly outside of range
+
+    # Edit Image
+    image = image.astype(np.int64)  # To avoid overflow issues
+    image[:, :, 0] = (255 * (image[:, :, 0] - blue_min)) / (blue_max - blue_min)
+    image[:, :, 1] = (255 * (image[:, :, 1] - green_min)) / (green_max - green_min)
+    image[:, :, 2] = (255 * (image[:, :, 2] - red_min)) / (red_max - red_min)
+    image = np.clip(image, 0, 255)  # Formula will cause some values to go slightly outside of range
     image = image.astype(np.uint8)
-    
-    
-    #Return Image
+
     return image
+
 
 # Works, fast
 def clahe(image_path):
     img = cv2.imread(image_path)
     return CLAHE.RecoverCLAHE(img)
+
 
 # Works, but takes 1-2 minutes per image
 def dcp(image_path):
@@ -117,36 +119,36 @@ def dcp(image_path):
     transmission, sceneRadiance = DCP.getRecoverScene(img)
 
     # Can return transmission or sceneRadiance
-    #return np.uint8(transmission * 255)
+    # return np.uint8(transmission * 255)
     return sceneRadiance
+
 
 # Works, but takes 1-2 minutes per image
 def gbrc(image_path):
-        img = cv2.imread(image_path)
-        img = (img - img.min()) / (img.max() - img.min()) * 255
+    img = cv2.imread(image_path)
+    img = (img - img.min()) / (img.max() - img.min()) * 255
 
-        blockSize = 9
+    blockSize = 9
 
-        largestDiff = GBRC.determineDepth(img, blockSize)
-        AtomsphericLight, AtomsphericLightGB, AtomsphericLightRGB = GBRC.getAtomsphericLight(largestDiff, img)
-        transmission = GBRC.getTransmission(img, AtomsphericLightRGB, blockSize)
-        transmission = GBRC.refinedtransmission(transmission, img)
-        # return np.uint8(transmission[:, :, 0] * 255)
+    largestDiff = GBRC.determineDepth(img, blockSize)
+    AtomsphericLight, AtomsphericLightGB, AtomsphericLightRGB = GBRC.getAtomsphericLight(largestDiff, img)
+    transmission = GBRC.getTransmission(img, AtomsphericLightRGB, blockSize)
+    transmission = GBRC.refinedtransmission(transmission, img)
+    # return np.uint8(transmission[:, :, 0] * 255)
 
-        sceneRadiance_GB = GBRC.sceneRadianceGB(img, transmission, AtomsphericLightRGB)
-        sceneRadiance = GBRC.sceneradiance(img, sceneRadiance_GB)
-        S_x = GBRC.AdaptiveExposureMap(img, sceneRadiance, Lambda=0.3, blockSize=blockSize)
-        sceneRadiance = GBRC.AdaptiveSceneRadiance(sceneRadiance, S_x)
-        
-        return sceneRadiance
+    sceneRadiance_GB = GBRC.sceneRadianceGB(img, transmission, AtomsphericLightRGB)
+    sceneRadiance = GBRC.sceneradiance(img, sceneRadiance_GB)
+    S_x = GBRC.AdaptiveExposureMap(img, sceneRadiance, Lambda=0.3, blockSize=blockSize)
+    sceneRadiance = GBRC.AdaptiveSceneRadiance(sceneRadiance, S_x)
+
+    return sceneRadiance
+
 
 # Works, fast
 def gc(image_path):
     img = cv2.imread(image_path)
     return GC.RecoverGC(img)
 
+  
 if __name__ == '__main__':
     main()
-
-    
-

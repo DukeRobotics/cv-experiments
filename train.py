@@ -66,7 +66,7 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--image-preprocessing', type=str, default=no_preprocessing)
+    parser.add_argument('--image-preprocessing', default=no_preprocessing)
     parser.add_argument('--epochs', type=int, default=DEFAULT_EPOCHS)
     parser.add_argument('--seed', type=int, default=1234)
     args = parser.parse_args()

@@ -2,6 +2,7 @@ from train import main as train
 from configurations import *
 import argparse
 from typing import List
+from image_preprocessing import *
 
 
 class ModelConfig:
