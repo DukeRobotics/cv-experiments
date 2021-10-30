@@ -55,4 +55,5 @@ def copy_images_and_labels(src_dir, dst_dir, image_preprocessing):
 
 
 if __name__ == '__main__':
-    create_image_processing_folders(no_preprocessing)
+    for image_preprocessing_function in DEFAULT_IMAGE_PREPROCESSING_ALGORITHMS:
+        create_image_processing_folders(image_preprocessing_function)
