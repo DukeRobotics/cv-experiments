@@ -14,6 +14,7 @@ class ModelConfig:
 def main(args):
     image_preprocessing_conditions = args.image_preprocessing_conditions
     runs = args.runs
+
     seeds = args.seeds
     epochs = args.epochs
 
@@ -30,7 +31,7 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--image-preprocessing-conditions', type=List, default=[no_preprocessing])
+    parser.add_argument('--image-preprocessing-conditions', type=List, default=DEFAULT_IMAGE_PREPROCESSING_ALGORITHMS)
     parser.add_argument('--epochs', type=int, default=DEFAULT_EPOCHS)
     parser.add_argument('--runs', type=int, default=DEFAULT_RUNS)
     parser.add_argument('--seeds', type=List, default=DEFAULT_SEEDS)

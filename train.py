@@ -35,6 +35,7 @@ def main(args):
     model = core.Model(CLASSES)
 
     print('Training the model!')
+
     losses = model.fit(dataset=train_dataset,
                        val_dataset=val_dataset,
                        epochs=epochs,
