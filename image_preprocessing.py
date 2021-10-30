@@ -82,10 +82,9 @@ def gc(image_path):
     return GC.RecoverGC(img)
 
 if __name__ == '__main__':
-    # Test an image processing algorithm
+    # TODO: Need to clean up this code
     
     imgPaths = ["test_images/frame216.jpg"]
-    # imgPaths = ["test_images/frame216.jpg", "test_images/frame220.jpg", "test_images/frame223.jpg", "test_images/frame230.jpg", "test_images/frame235.jpg", "test_images/frame242.jpg", "test_images/frame258.jpg", ]
     functions = [amine_rhone, clahe, dcp, gbrc, gc]
     imgs = []
 
@@ -107,4 +106,3 @@ if __name__ == '__main__':
         before = not before
     fig.tight_layout()
     plt.show()
-
