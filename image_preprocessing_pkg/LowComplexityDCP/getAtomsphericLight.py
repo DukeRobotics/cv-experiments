@@ -7,7 +7,7 @@ class Node(object):
 		self.y = y
 		self.value = value
 	def printInfo(self):
-		print(self.x,self.y,self.value)
+		dummy = ""
 
 def getAtomsphericLight(darkChannel, img, meanMode, percent):
     size = darkChannel.shape[0] * darkChannel.shape[1]
@@ -27,7 +27,7 @@ def getAtomsphericLight(darkChannel, img, meanMode, percent):
     for i in range(0, int(percent*size)):
         SumImg = sum(img[nodes[i].x, nodes[i].y,:])
         if SumImg > atomsphericLight:
-            print('img[nodes[i].x, nodes[i].y, :]',img[nodes[i].x, nodes[i].y, :])
+            # print('img[nodes[i].x, nodes[i].y, :]',img[nodes[i].x, nodes[i].y, :])
             atomsphericLight = SumImg
             AtomsphericLight = img[nodes[i].x, nodes[i].y, :]
             # print('nodes[i].x, nodes[i].y,SumImg',SumImg,nodes[i].x, nodes[i].y,img[nodes[i].x, nodes[i].y, :])

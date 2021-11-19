@@ -11,7 +11,7 @@ def  closePoint(img, AtomsphericLight):
         Max_B = np.max([AtomsphericLight[i],(255 -AtomsphericLight[i])])
         temp  = Max_I / Max_B
         Max.append(temp)
-    print('Max',Max)
+    # print('Max',Max)
     K_b = 1  - np.max(Max)
     return K_b
 

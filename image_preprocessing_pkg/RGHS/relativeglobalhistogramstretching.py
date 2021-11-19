@@ -2,7 +2,7 @@
 
 import math
 import numpy as np
-from stretchRange import stretchrange
+from image_preprocessing_pkg.RGHS.stretchRange import stretchrange
 
 
 pi = math.pi

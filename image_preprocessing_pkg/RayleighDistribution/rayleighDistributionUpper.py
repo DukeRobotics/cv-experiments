@@ -15,7 +15,7 @@ class Node(object):
 		self.y = y
 		self.value = value
 	def printInfo(self):
-		print(self.x,self.y,self.value)
+		dummy = ""
 
 def rayleighStrUpper(nodes, height, width,lower_Position):
     allSize = height * width
