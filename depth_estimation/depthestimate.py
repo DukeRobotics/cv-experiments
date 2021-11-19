@@ -12,9 +12,11 @@ def main():
     threshold = 10 # threshold to determine the bounding box is "touching" an edge
     B = 68.58 # in mm, distance between 2 cameras
     height, width, channels = leftimg.shape
+    print('width:', width)
     angle_of_view = 40 # in degrees, estimated
     angle = math.pi*angle_of_view/180 # converted to radians
     f = width/2/math.tan(angle/2) # calculating focal length in terms of pixels
+    print (f)
 
     # setting bounding box points manually [(left p1), (left p2), (right p1), (right p2)]
     names = ['checker', 'stuff', 'board']
@@ -47,7 +49,7 @@ def main():
         # disparity (in pixels) needed to estimate depth
         disparity = leftcenter - rightcenter
         # calculate the depth with given parameter
-        depth = f*B/disparity * 2.15 # multipy by certain constant
+        depth = f*B/disparity * 2.15 # multiply by certain constant
         print("estimated depth for " + names[i]+ " (mm): ", depth)
 
         cv2.rectangle(leftimg, leftp1, leftp2, (0, 255, 0), 3)
