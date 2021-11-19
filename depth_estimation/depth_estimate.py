@@ -9,10 +9,10 @@ import math
 def depth_estimate(t_left, t_right, width):
     ## check dimensions of t_left and t_right
     if t_left.size()[0] == 0 or t_right.size()[0] == 0:
-        print('there is no box! returning 0 for depth')
+        print('there is no box! returning 0')
         return 0
     if t_left.size()[0] != 1 or t_right.size()[0] != 1:
-        print('there are too many boxes! returning 0 for depth')
+        print('there are too many boxes! returning 0')
         return 0
     ## parameters
     threshold = 4 # threshold in percent to determine that the bounding box is "touching" an edge
@@ -44,6 +44,9 @@ def depth_estimate(t_left, t_right, width):
     # calculate the depth with given parameter
     my_constant = 2.15 # theoretically this should be 1.0 if the cameras are perfectly aligned
     depth = f*B/disparity * my_constant # multiply by certain constant
+    if depth <= 0 :
+        print('negative depth calculated, retunring 0')
+        return 0
     return depth # return depth in mm
 
 def main():
