@@ -37,13 +37,13 @@ def main():
     # If the function_timings flag was true, print timings of all functions and don't do anything else
     if args.function_timings:
         # The names of all functions
-        functionNames =          ["no_preprocessing", "amine_rhone",    "clahe",        "dcp",       "gbrc",      "gc",           "he",           "ibla",       "icm",        "lcdcp",       "mip",       "nom",       "rd",        "rghs",       "rws",          "ucm",      "udcp",      "ulap"       ]
+        functionNames =          ["no_preprocessing", "amine_rhone",  "clahe",        "dcp",       "gbrc",      "gc",           "he",           "ibla",      "icm",        "lcdcp",       "mip",         "nom",          "rd",        "rghs",       "rws",       "ucm",      "udcp",      "ulap"       ]
         
         # The timngs of all functions in natural language
-        functionTimingsNatural = ["0.05 seconds",     "0.20 seconds",   "0.07 seconds", "2 minutes", "2 minutes", "0.35 seconds", "0.05 seconds", "10 minutes", "30 seconds", "1.5 minutes", "2 minutes", "5 minutes", "2 minutes", "30 seconds", "1.75 minutes", "1 minute", "2 minutes", "20 seconds" ]
+        functionTimingsNatural = ["0.05 seconds",     "0.20 seconds", "0.07 seconds", "2 minutes", "2 minutes", "0.35 seconds", "0.05 seconds", "5 minutes", "30 seconds", "1.5 minutes", "2.5 minutes", "4.25 minutes", "2 minutes", "45 seconds", "2 minutes", "1 minute", "2 minutes", "15 seconds" ]
         
         # The timings of all functions in seconds
-        functionTimingsSeconds = [ 0.05,               0.20,             0.07,           120,         120,         0.35,           0.05,           600,          30,           90,            120,         300,         120,         30,           105,            60,         120,         20          ]
+        functionTimingsSeconds = [ 0.05,               0.20,           0.07,           120,         120,         0.35,           0.05,           300,         30,           90,            150,           255,            120,         45,           120,         60,         120,         15          ]
 
         # Print timings in natural language
         print("\nFunction Timings (natural)")
