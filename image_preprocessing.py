@@ -139,7 +139,7 @@ def main():
             processingStartTime = time.time()
             processedImg = functions[i](imgPath)
             processingTime = time.time() - processingStartTime
-            print(f'{functions[i].__name__:>20}' + " %.2f secs" % processingTime)
+            print(f'{functions[i].__name__:>20}' + " %6.2f secs" % processingTime)
             functionTimingSums[i] += processingTime 
 
             ax = axes.ravel()[i]
@@ -170,7 +170,7 @@ def main():
     if(len(functions) > 1):
         print("Average runtimes")
         for i in range(len(functions)):
-            print(f'{functions[i].__name__:>20}' + " %.2f secs" % (functionTimingSums[i] / len(imgPaths)))
+            print(f'{functions[i].__name__:>20}' + " %6.2f secs" % (functionTimingSums[i] / len(imgPaths)))
     print()
 
     
