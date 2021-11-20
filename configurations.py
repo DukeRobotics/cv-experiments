@@ -6,8 +6,8 @@ from image_preprocessing import *
 
 CLASSES = ['start_gate', 'start_tick']
 
-IMAGE_PREPROCESSING_ALGORITHMS = [no_preprocessing, amine_rhone, clahe, dcp, gbrc, gc]
-DEFAULT_IMAGE_PREPROCESSING_ALGORITHMS = [no_preprocessing, amine_rhone, clahe, gc]
+IMAGE_PREPROCESSING_ALGORITHMS = [no_preprocessing, amine_rhone, clahe, dcp, gbrc, gc, he, ibla, icm, lcdcp, mip, nom, rd, rghs, rws, ucm, udcp, ulap]
+DEFAULT_IMAGE_PREPROCESSING_ALGORITHMS = [no_preprocessing, amine_rhone, clahe, gc, he]
 ORIGINAL_IMAGE_FOLDER = 'original'
 
 # Values
