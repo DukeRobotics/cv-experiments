@@ -4,11 +4,11 @@ def global_stretching(img_L,height, width):
     length = height * width
     R_rray = (np.copy(img_L)).flatten()
     R_rray.sort()
-    print('R_rray',R_rray)
+    # print('R_rray',R_rray)
     I_min = int(R_rray[int(length / 100)])
     I_max = int(R_rray[-int(length / 100)])
-    print('I_min',I_min)
-    print('I_max',I_max)
+    # print('I_min',I_min)
+    # print('I_max',I_max)
     array_Global_histogram_stretching_L = np.zeros((height, width))
     for i in range(0, height):
         for j in range(0, width):

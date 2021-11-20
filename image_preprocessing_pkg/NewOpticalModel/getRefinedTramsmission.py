@@ -1,5 +1,5 @@
 import numpy as np
-from GuidedFilter import GuidedFilter
+from image_preprocessing_pkg.NewOpticalModel.GuidedFilter import GuidedFilter
 
 def  Refinedtransmission(transmissionGB, transmissionR, img):
 

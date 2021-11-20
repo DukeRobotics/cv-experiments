@@ -21,8 +21,8 @@ def stretchrange(r_array, height, width):
 
     SR_max = R_rray[int(-(length - mode_index_before) * 0.005)]
 
-    print('mode', mode)
-    print('DR_min', DR_min)
-    print('SR_max', SR_max)
+    # print('mode', mode)
+    # print('DR_min', DR_min)
+    # print('SR_max', SR_max)
 
     return DR_min, SR_max, mode

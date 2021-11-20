@@ -2,7 +2,7 @@ import cv2
 from skimage.color import rgb2hsv,hsv2rgb
 import numpy as np
 
-from global_Stretching_SV import global_stretching
+from image_preprocessing_pkg.RayleighDistribution.global_Stretching_SV import global_stretching
 
 
 def  HSVStretching(sceneRadiance):

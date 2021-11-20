@@ -5,11 +5,11 @@ def  sceneradiance(img, sceneRadiance_GB):
     R_original = img[:, :, 2]
     sceneRadiance_GB = np.float32(sceneRadiance_GB)
 
-    print('***********************************************************')
+    # print('***********************************************************')
     avgRr = 1.5 - (np.mean(sceneRadiance_GB[:,:,0])/255 +np.mean(sceneRadiance_GB[:,:,1])/255)
     parameterR  =   avgRr  / ((np.mean(R_original))/255)
 
-    print('parameterR',parameterR)
+    # print('parameterR',parameterR)
     sceneRadianceR = R_original * parameterR
     sceneRadianceR = (sceneRadianceR - sceneRadianceR.min()) / (sceneRadianceR.max() - sceneRadianceR.min())
     sceneRadianceR = sceneRadianceR * 255

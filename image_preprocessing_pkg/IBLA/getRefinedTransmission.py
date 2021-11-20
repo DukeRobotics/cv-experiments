@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-from GuidedFilter import GuidedFilter
+from image_preprocessing_pkg.IBLA.GuidedFilter import GuidedFilter
 
 
 def  Refinedtransmission(transmissionB,transmissionG,transmissionR_Stretched,img):

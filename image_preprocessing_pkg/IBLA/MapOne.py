@@ -1,6 +1,6 @@
 import numpy as np
 
-from getOneChannelMax import getMaxChannel
+from image_preprocessing_pkg.IBLA.getOneChannelMax import getMaxChannel
 
 
 def max_R(img,blockSize):

@@ -15,9 +15,9 @@ def getMinChannel(img,AtomsphericLight):
 def getTransmission(img,AtomsphericLight ,blockSize):
     img = img/255
     AtomsphericLight = AtomsphericLight/255
-    print('np.mean(img * AtomsphericLight)',np.mean(img * AtomsphericLight))
+    # print('np.mean(img * AtomsphericLight)',np.mean(img * AtomsphericLight))
     img = getMinChannel(img,AtomsphericLight)
-    print('np.mean(img)',np.mean(img))
+    # print('np.mean(img)',np.mean(img))
     addSize = int((blockSize - 1) / 2)
     newHeight = img.shape[0] + blockSize - 1
     newWidth = img.shape[1] + blockSize - 1

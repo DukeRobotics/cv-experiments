@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-from blurrinessMap import blurrnessMap
+from image_preprocessing_pkg.IBLA.blurrinessMap import blurrnessMap
 
 
 def Selection_SameFour(I_gray_Q,height_begin,height_end,width_begin,width_end):

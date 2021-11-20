@@ -11,8 +11,8 @@ def global_stretching(img_L):
     R_rray.sort()
     I_min = R_rray[int(length / 200)]
     I_max = R_rray[-int(length / 200)]
-    print('I_min',I_min)
-    print('I_max',I_max)
+    # print('I_min',I_min)
+    # print('I_max',I_max)
     array_Global_histogram_stretching_L = np.zeros((height, width))
     for i in range(0, height):
         for j in range(0, width):
