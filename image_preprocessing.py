@@ -32,6 +32,7 @@ def main():
     parser.add_argument('--function-timings', action='store_true', help='An optional argument to print how long each image preprocessing function takes on average. Say "yes" or "no" (case-insensitive). If not specified, no timings will be printed.')
     parser.add_argument('--functions', type=str, help='An optional argument to specify which image preprocessing functions to run (comma-seperated). If not specified, only no_preprocessing will be run. If "all" is specified, all functions (fast and slow) will be run. If "all-fast" is specified, all functions that run in a short amount of time (<1 second) are run. If "all-slow" is specified, all functions that run in a long amount of time are run. Ex: "--functions amine_rhone,clahe,gc" NOTE: no_preprocessing is always run, regardless of the specified functions.')
     parser.add_argument('--images', type=str, help='An optional argument to specify which images in the test_images folder should be used (comma-seperated). If not specified, frame216.jpg will be used. If "all" is specified, all the test_images folder will be used. images in Ex: "--images frame220.jpg,frame223.jpg,frame230.jpg". ')
+    parser.add_argument('--view-images-together', action='store_true', help="An optional argument to view the processing results of all images over all functions in one figure. This is useful for comparing the results of functions across images. If not specified, processing results will be shown in a seperate figure for each image.")
     args = parser.parse_args()
 
     # If the function_timings flag was true, print timings of all functions and don't do anything else
@@ -122,49 +123,98 @@ def main():
     # List to hold the sum of the execution times of each function over all images
     functionTimingSums = [0] * len(functions)
     
-    # Process each image and display a figure for comparison
-    for imgPath in imgPaths:
-        # Print which image is being processed
-        print("Running " + imgPath)
-
-        # Create subplots a fixed 3 columns and necessary number of rows to display all images
-        cols = 3 if len(functions) >=3 else len(functions)
-        rows = math.ceil(len(functions) / cols)
+    # If the user wants to view the all images together (for cross-image cross-function comparison), display them in one figure
+    # Else, display the processed versions of each image in seperate figures
+    if args.view_images_together:
+        # Create subplots such that each column corresponds to one preprocessing function and each row corresponds to one image
+        cols = len(functions)
+        rows = len(imgPaths)
         fig, axes = plt.subplots(nrows=rows, ncols=cols, figsize=(12, 6), squeeze=False)
 
-        # Loop through all preprocessing functions that need to be executed
-        # Apply each function to the image, time its executin, and show it on the matplotlib
-        for i in range(len(functions)):
+        # List of processed images
+        processedImgs = []
 
-            processingStartTime = time.time()
-            processedImg = functions[i](imgPath)
-            processingTime = time.time() - processingStartTime
-            print(f'{functions[i].__name__:>20}' + " %6.2f secs" % processingTime)
-            functionTimingSums[i] += processingTime 
+        # Process each image
+        for imgPath in imgPaths:
 
+            # Print which image is being processed
+            print("Running " + imgPath)
+
+            # Loop through all preprocessing functions that need to be executed
+            # Apply each function to the image and print how long it takes to execute
+            for i in range(len(functions)):
+                processingStartTime = time.time()
+                processedImg = functions[i](imgPath)
+                processingTime = time.time() - processingStartTime
+                print(f'{functions[i].__name__:>20}' + " %6.2f secs" % processingTime)
+                processedImgs.append(processedImg)
+                functionTimingSums[i] += processingTime 
+
+            # Newline for spacing
+            print()
+
+        # Add each processed image to the figure
+        for i in range(len(processedImgs)):
             ax = axes.ravel()[i]
-            ax.imshow(cv2.cvtColor(processedImg, cv2.COLOR_BGR2RGB), interpolation="nearest")
+            ax.imshow(cv2.cvtColor(processedImgs[i], cv2.COLOR_BGR2RGB), interpolation="nearest")
             ax.xaxis.set_ticks([])
             ax.yaxis.set_ticks([])
-            ax.set_xlabel(functions[i].__name__)
 
-        # Delete any subplots that do not contain an image
-        for i in range((rows * cols) - len(functions)):
-            fig.delaxes(axes[rows - 1][cols - 1 - i])
+            # Label image with the image file name and processing function name
+            imgPathSplit = imgPaths[(int) (i / len(functions))].split("/")
+            ax.set_xlabel(imgPathSplit[len(imgPathSplit) - 1] + " | " + functions[i % len(functions)].__name__)
 
-        # Set the figure title to the filename of the image
-        imgPathSplit = imgPath.split("/")
-        fig.suptitle(imgPathSplit[len(imgPathSplit) - 1])
-
-        # Show the plot with all the images
+        # Set title and layout of figure
+        fig.suptitle("Image Preprocessing Comparison")
         fig.tight_layout()
 
-        # Newline for spacing
-        print()
-
-        # Show each figure
-        # User will have to close currently displayed figure to see figure of next image
+        # Show the figure with all processed images
         plt.show()
+    
+    else:
+        # Process each image and display a figure for comparison
+        for imgPath in imgPaths:
+            # Print which image is being processed
+            print("Running " + imgPath)
+
+            # Create subplots a fixed 3 columns and necessary number of rows to display all images
+            cols = 3 if len(functions) >= 3 else len(functions)
+            rows = math.ceil(len(functions) / cols)
+            fig, axes = plt.subplots(nrows=rows, ncols=cols, figsize=(12, 6), squeeze=False)
+
+            # Loop through all preprocessing functions that need to be executed
+            # Apply each function to the image, print how long it takes to execute, and show it on the matplotlib
+            for i in range(len(functions)):
+
+                processingStartTime = time.time()
+                processedImg = functions[i](imgPath)
+                processingTime = time.time() - processingStartTime
+                print(f'{functions[i].__name__:>20}' + " %6.2f secs" % processingTime)
+                functionTimingSums[i] += processingTime 
+
+                ax = axes.ravel()[i]
+                ax.imshow(cv2.cvtColor(processedImg, cv2.COLOR_BGR2RGB), interpolation="nearest")
+                ax.xaxis.set_ticks([])
+                ax.yaxis.set_ticks([])
+                ax.set_xlabel(functions[i].__name__)
+
+            # Delete any subplots that do not contain an image
+            for i in range((rows * cols) - len(functions)):
+                fig.delaxes(axes[rows - 1][cols - 1 - i])
+
+            # Set the figure title to the filename of the image
+            imgPathSplit = imgPath.split("/")
+            fig.suptitle(imgPathSplit[len(imgPathSplit) - 1])
+
+            # Show the plot with all the images
+            fig.tight_layout()
+
+            # Newline for spacing
+            print()
+
+            # Show each figure
+            # User will have to close currently displayed figure to see figure of next image
+            plt.show()
     
     # Print the average runtime of each of the function over all the images
     if(len(functions) > 1):
