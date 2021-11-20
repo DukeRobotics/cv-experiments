@@ -23,8 +23,6 @@ from image_preprocessing_pkg.UCM                    import main as UCM
 from image_preprocessing_pkg.UDCP                   import main as UDCP
 from image_preprocessing_pkg.ULAP                   import main as ULAP
 
-# This file will contain all of the different image processing algorithms
-# Each algorithm should have its own separate function
 
 def main():
     # Use ArgumentParser to get functions and image optional arguments
@@ -63,6 +61,7 @@ def main():
             print("%20s %6.2f" % (functionNamesSorted[i], functionTimingsSecondsSorted[i]))
 
         return
+
 
     # Get list of functions
     possibles = globals().copy()
@@ -223,11 +222,9 @@ def main():
             print(f'{functions[i].__name__:>20}' + " %6.2f secs" % (functionTimingSums[i] / len(imgPaths)))
     print()
 
-    
 # Works, fast (0.05 seconds)
 def no_preprocessing(image_path):
     return cv2.imread(image_path)
-
 
 # Credit to this research paper: http://www.lsis.org/rov3d/article/art_AmineRhone2012.html
 # Works, fast (0.20 seconds)
@@ -305,47 +302,47 @@ def he(image_path):
 
 # Works, but takes 10 minutes per image
 def ibla(image_path):
-        img = cv2.imread(image_path)
+    img = cv2.imread(image_path)
 
-        blockSize = 9
-        n = 5
-        RGB_Darkchannel = IBLA.getRGB_Darkchannel(img, blockSize)
-        BlurrnessMap = IBLA.blurrnessMap(img, blockSize, n)
-        AtomsphericLightOne = IBLA.getAtomsphericLightDCP_Bright(RGB_Darkchannel, img, percent=0.001)
-        AtomsphericLightTwo = IBLA.getAtomsphericLightLv(img)
-        AtomsphericLightThree = IBLA.getAtomsphericLightLb(img, blockSize, n)
-        AtomsphericLight = IBLA.ThreeAtomsphericLightFusion(AtomsphericLightOne, AtomsphericLightTwo, AtomsphericLightThree, img)
+    blockSize = 9
+    n = 5
+    RGB_Darkchannel = IBLA.getRGB_Darkchannel(img, blockSize)
+    BlurrnessMap = IBLA.blurrnessMap(img, blockSize, n)
+    AtomsphericLightOne = IBLA.getAtomsphericLightDCP_Bright(RGB_Darkchannel, img, percent=0.001)
+    AtomsphericLightTwo = IBLA.getAtomsphericLightLv(img)
+    AtomsphericLightThree = IBLA.getAtomsphericLightLb(img, blockSize, n)
+    AtomsphericLight = IBLA.ThreeAtomsphericLightFusion(AtomsphericLightOne, AtomsphericLightTwo, AtomsphericLightThree, img)
 
-        R_map = IBLA.max_R(img, blockSize)
-        mip_map = IBLA.R_minus_GB(img, blockSize, R_map)
-        bluriness_map = BlurrnessMap
+    R_map = IBLA.max_R(img, blockSize)
+    mip_map = IBLA.R_minus_GB(img, blockSize, R_map)
+    bluriness_map = BlurrnessMap
 
-        d_R = 1 - IBLA.StretchingFusion(R_map)
-        d_D = 1 - IBLA.StretchingFusion(mip_map)
-        d_B = 1 - IBLA.StretchingFusion(bluriness_map)
+    d_R = 1 - IBLA.StretchingFusion(R_map)
+    d_D = 1 - IBLA.StretchingFusion(mip_map)
+    d_B = 1 - IBLA.StretchingFusion(bluriness_map)
 
-        d_n = IBLA.Scene_depth(d_R, d_D, d_B, img, AtomsphericLight)
-        d_n_stretching = IBLA.global_stretching(d_n)
-        d_0 = IBLA.closePoint(img, AtomsphericLight)
-        d_f = 8  * (d_n +  d_0)
+    d_n = IBLA.Scene_depth(d_R, d_D, d_B, img, AtomsphericLight)
+    d_n_stretching = IBLA.global_stretching(d_n)
+    d_0 = IBLA.closePoint(img, AtomsphericLight)
+    d_f = 8  * (d_n +  d_0)
 
-        transmissionR = IBLA.getTransmission(d_f)
-        transmissionB, transmissionG = IBLA.getGBTransmissionESt(transmissionR, AtomsphericLight)
-        transmissionB, transmissionG, transmissionR = IBLA.Refinedtransmission(transmissionB, transmissionG, transmissionR, img)
+    transmissionR = IBLA.getTransmission(d_f)
+    transmissionB, transmissionG = IBLA.getGBTransmissionESt(transmissionR, AtomsphericLight)
+    transmissionB, transmissionG, transmissionR = IBLA.Refinedtransmission(transmissionB, transmissionG, transmissionR, img)
 
-        sceneRadiance = IBLA.sceneRadianceRGB(img, transmissionB, transmissionG, transmissionR, AtomsphericLight)
+    sceneRadiance = IBLA.sceneRadianceRGB(img, transmissionB, transmissionG, transmissionR, AtomsphericLight)
 
-        # Depth Map d_D
-        # return np.uint8((d_D)*255)
+    # Depth Map d_D
+    # return np.uint8((d_D)*255)
 
-        # Depth Map
-        # return np.uint8((d_f/d_f.max())*255)
+    # Depth Map
+    # return np.uint8((d_f/d_f.max())*255)
 
-        # Transmission Map
-        # return np.uint8(np.clip(transmissionR * 255, 0, 255))
+    # Transmission Map
+    # return np.uint8(np.clip(transmissionR * 255, 0, 255))
 
-        # Scene radiance
-        return sceneRadiance
+    # Scene radiance
+    return sceneRadiance
 
 # Works, but takes 30 seconds per image
 def icm(image_path):
@@ -511,6 +508,7 @@ def ulap(image_path):
     
     # Scene radiance
     return sceneRadiance
+
   
 if __name__ == '__main__':
     main()
